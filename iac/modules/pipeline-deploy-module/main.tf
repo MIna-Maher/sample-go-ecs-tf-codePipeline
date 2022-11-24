@@ -192,8 +192,8 @@ resource "aws_codepipeline" "static_pipeline" {
       run_order       = 3
       input_artifacts = ["OutputArtifact"]
       configuration = {
-        ApplicationName                = var.codedeploy_applicationname
-        DeploymentGroupName            = var.codedeploy_groupname
+        ApplicationName                = "${var.environment}-${var.serviceName}-codedeploy-app"
+        DeploymentGroupName            = "${var.environment}-${var.serviceName}-codedeploy-dg"
 
         TaskDefinitionTemplateArtifact = "OutputArtifact"
         TaskDefinitionTemplatePath     = "taskdef.json"

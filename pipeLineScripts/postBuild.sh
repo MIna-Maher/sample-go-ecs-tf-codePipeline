@@ -14,7 +14,7 @@ export aws_logs_group=${env}-go-docker-demo-log-group
 cat ./pipeLineScripts/taskdef.json.template | envsubst > taskdef.json
 cat taskdef.json
 echo "Creating imageDetail.json"
-printf '{"ImageURI":"%s"}' ${accountId}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ecr_docker_repo}:v${dockerPackageVersion} > imageDetail.json
+printf '{"ImageURI":"%s"}' ${accountId}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ecr_docker_repo}:latest > imageDetail.json
 ls
 cat imageDetail.json
 cat ./pipeLineScripts/appspec.yml | envsubst > appspec.yml
