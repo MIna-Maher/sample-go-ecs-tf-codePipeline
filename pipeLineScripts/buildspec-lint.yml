@@ -7,12 +7,12 @@ phases:
       - pwd
       - ls
       - chmod 750 ./pipeLineScripts/runDocker.sh
-      - ./pipelineScripts/runDocker.sh 
+      - ./pipeLineScripts/runDocker.sh 
   post_build:
     commands:
       - echo Build completed on `date`
-      - chmod 750 ./pipelineScripts/postBuild.sh
-      - ./pipelineScripts/postBuild.sh
+      - chmod 750 ./pipeLineScripts/postBuild.sh
+      - ./pipeLineScripts/postBuild.sh
 artifacts:
   files: 
     - imageDetail.json
