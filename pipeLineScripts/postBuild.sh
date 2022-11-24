@@ -1,6 +1,7 @@
 #!/bin/bash -e
 echo "Starting Post Build Stage....."
 env=$(printenv DEPLOY_ENVIRONMENT)
+accountId=$(printenv ACCOUNT_ID)
 ecr_docker_repo=${env}-go-docker-demo-ecr-repo
 AWS_DEFAULT_REGION=$(printenv REGION_NAME)
 echo "Preparing taskdef file...."

@@ -54,7 +54,8 @@ data "aws_iam_policy_document" "codebuildPolicydocument" {
       "kms:Decrypt",
       "kms:ReEncrypt*",
       "kms:GenerateDataKey*",
-      "kms:DescribeKey"
+      "kms:DescribeKey",
+      "ecr:*"
     ]
 
     resources = ["*"]

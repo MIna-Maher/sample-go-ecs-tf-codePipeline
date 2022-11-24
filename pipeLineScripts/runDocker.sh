@@ -1,5 +1,6 @@
 #!/bin/bash -e
 env=$(printenv DEPLOY_ENVIRONMENT)
+accountId=$(printenv ACCOUNT_ID)
 AWS_DEFAULT_REGION=$(printenv REGION_NAME)
 ecr_docker_repo=${env}-go-docker-demo-ecr-repo
 

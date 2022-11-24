@@ -1,6 +1,7 @@
 
 ################Create s3 bucket for storing codepipeline outputs artifacts##########
 data "aws_region" "current" {}
+
 resource "aws_s3_bucket" "codepipeline_bucket" {
   bucket = "${var.environment}-${var.serviceName}-artifacts-demo"
   force_destroy = "true"
@@ -66,11 +67,11 @@ resource "aws_codebuild_project" "codeBuildProjectlint" {
       value = var.environment
     }
 
-    #environment_variable {
-    #  name  = "ACCOUNT_ID"
-    #  type  = "PLAINTEXT"
-    #  value = var.Target_Acc_Id
-    #}
+    environment_variable {
+      name  = "ACCOUNT_ID"
+      type  = "PLAINTEXT"
+      value = data.aws_caller_identity.current.account_id
+    }
 #
     environment_variable {
       name  = "REGION_NAME"
