@@ -11,12 +11,12 @@ export taskCPU=256
 export taskRAM=512
 export aws_logs_group=${env}-go-docker-demo-log-group
 
-cat ./pipelineScripts/taskdef.json.template | envsubst > taskdef.json
+cat ./pipeLineScripts/taskdef.json.template | envsubst > taskdef.json
 cat taskdef.json
 echo "Creating imageDetail.json"
 printf '{"ImageURI":"%s"}' ${accountId}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ecr_docker_repo}:v${dockerPackageVersion} > imageDetail.json
 ls
 cat imageDetail.json
-cat ./pipelineScripts/appspec.yml | envsubst > appspec.yml
+cat ./pipeLineScripts/appspec.yml | envsubst > appspec.yml
 cat appspec.yml
 ######################################
