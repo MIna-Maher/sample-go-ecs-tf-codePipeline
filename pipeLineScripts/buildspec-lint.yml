@@ -6,7 +6,7 @@ phases:
     commands:
       - pwd
       - ls
-      - chmod 750 ./pipelineScripts/runDocker.sh
+      - chmod 750 ./pipeLineScripts/runDocker.sh
       - ./pipelineScripts/runDocker.sh 
   post_build:
     commands:
