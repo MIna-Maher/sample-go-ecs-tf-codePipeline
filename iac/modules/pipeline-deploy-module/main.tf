@@ -1,7 +1,8 @@
 
 ################Create s3 bucket for storing codepipeline outputs artifacts##########
+data "aws_region" "current" {}
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "${var.environment}-${var.serviceName}-artifacts"
+  bucket = "${var.environment}-${var.serviceName}-artifacts-demo"
   force_destroy = "true"
 }
 ##### According to the latest change in AWS terraform module############
@@ -71,11 +72,11 @@ resource "aws_codebuild_project" "codeBuildProjectlint" {
     #  value = var.Target_Acc_Id
     #}
 #
-    #environment_variable {
-    #  name  = "REGION_NAME"
-    #  type  = "PLAINTEXT"
-    #  value = var.RegionName
-    #}
+    environment_variable {
+      name  = "REGION_NAME"
+      type  = "PLAINTEXT"
+      value = data.aws_region.current.name
+    }
   }
   source {
     type      = "CODEPIPELINE"
@@ -183,7 +184,6 @@ resource "aws_codepipeline" "static_pipeline" {
     name = "Deploy"
     action {
       name            = "ExternalDeploy"
-      role_arn        = var.codedeploy_role_arn
       category        = "Deploy"
       owner           = "AWS"
       provider        = "CodeDeployToECS"
@@ -193,6 +193,7 @@ resource "aws_codepipeline" "static_pipeline" {
       configuration = {
         ApplicationName                = var.codedeploy_applicationname
         DeploymentGroupName            = var.codedeploy_groupname
+
         TaskDefinitionTemplateArtifact = "OutputArtifact"
         TaskDefinitionTemplatePath     = "taskdef.json"
         AppSpecTemplateArtifact        = "OutputArtifact"

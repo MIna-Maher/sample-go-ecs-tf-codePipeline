@@ -1,0 +1,20 @@
+version: 0.2
+### This buildspec file for plan and build jobservice app docker image
+phases:
+
+  build:
+    commands:
+      - pwd
+      - ls
+      - chmod 750 ./pipelineScripts/runDocker.sh
+      - ./pipelineScripts/runDocker.sh 
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - chmod 750 ./pipelineScripts/postBuild.sh
+      - ./pipelineScripts/postBuild.sh
+artifacts:
+  files: 
+    - imageDetail.json
+    - taskdef.json
+    - appspec.yml

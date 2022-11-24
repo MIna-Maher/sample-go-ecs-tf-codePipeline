@@ -1,0 +1,33 @@
+{
+  "executionRoleArn": "${ecs_task_execution_role}",
+  "containerDefinitions": [
+      {
+          "name": "go-docker-demo",
+          "image": "<IMAGE1_NAME>",
+          "essential": true,
+          "portMappings": [
+              {
+                  "hostPort": 8000,
+                  "protocol": "tcp",
+                  "containerPort": 8000
+              }
+          ],
+          "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "${aws_logs_group}",
+                "awslogs-region": "us-east-1",
+                "awslogs-stream-prefix": "go-docker-demo"
+            }
+        }
+      }
+  ],
+  "taskRoleArn": "${ecs_task_role}",
+  "requiresCompatibilities": [
+      "EC2"
+  ],
+  "networkMode": "awsvpc",
+  "cpu": "${taskCPU}",
+  "memory": "${taskRAM}",
+  "family": "go-docker-demo"
+}

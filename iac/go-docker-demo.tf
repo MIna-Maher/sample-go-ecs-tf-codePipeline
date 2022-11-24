@@ -96,6 +96,7 @@ module "go-app-codedeploy" {
 }
 
 module "codepipeline" {
+  #depends_on = [module.go-app-codedeploy]
   environment                      = var.environment
   source                             = "./modules/pipeline-deploy-module"
   serviceName                        = "go-docker-demo"
