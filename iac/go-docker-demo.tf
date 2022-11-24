@@ -4,6 +4,15 @@ provider "aws" {
 data "aws_vpc" "vpc" {
   id = var.vpc_id
 }
+data "aws_ssm_parameter" "GitHubToken" {
+  name            = "GitHubToken"
+  with_decryption = "true"
+  #####Default for with_decryption is true
+}
+provider "github" {
+  token = data.aws_ssm_parameter.GitHubToken.value
+  owner = var.repository_owner
+}
 ## Create ecs cluster
 
 module "ecsCluster" {
@@ -84,4 +93,22 @@ module "go-app-codedeploy" {
   percentage_canary_deployment      = "10"
   deployment_config_option         = "canary"
   #deployment_config_option          = "AllAtOnce"
+}
+
+module "codepipeline" {
+  environment                      = var.environment
+  source                             = "./modules/pipeline-deploy-module"
+  serviceName                        = "go-docker-demo"
+  codebuild_compute_type             = "BUILD_GENERAL1_SMALL"
+  coudebuild_image                   = "aws/codebuild/standard:4.0"
+  codebuid_env_type                  = "LINUX_CONTAINER"
+  buildspec_lint_dir                 = "./pipeLineScripts/buildspec-lint.yml"
+  repository_name                    = "sample-go-ecs-tf-codePipeline"
+  repository_branch                  = "main"
+  repository_owner                   = var.repository_owner
+  GitHubToken                        = data.aws_ssm_parameter.GitHubToken.value
+  codedeploy_role_arn                = module.go-app-codedeploy.codedeploy_role_arn
+  codedeploy_applicationname         = module.go-app-codedeploy.codedeploy_applicationname
+  codedeploy_groupname               = module.go-app-codedeploy.codedeploy_groupname
+
 }

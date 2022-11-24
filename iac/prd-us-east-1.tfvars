@@ -6,3 +6,4 @@ public_subnet_ids = ["subnet-046118494f1225c2e", "subnet-098489a7e3cc41dad"]
 clusterName = "go-docker-demo"
 log_group_retention_in_days = 30
 container_insights  = "enabled"
+repository_owner    = "MIna-Maher"

@@ -19,7 +19,8 @@ resource "aws_iam_role" "codedeploy_service_role" {
       "Effect": "Allow",
       "Principal": {
         "Service": [
-          "codedeploy.amazonaws.com"
+          "codedeploy.amazonaws.com",
+          "codepipeline.amazonaws.com"
         ]
       },
       "Action": "sts:AssumeRole"

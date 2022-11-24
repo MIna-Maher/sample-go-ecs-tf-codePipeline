@@ -23,3 +23,6 @@ variable "log_group_retention_in_days" {
 variable "container_insights" {
   type = string
 }
+variable "repository_owner" {
+  type = string
+}
