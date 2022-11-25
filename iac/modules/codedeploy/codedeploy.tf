@@ -31,7 +31,7 @@ EOF
 
 # attach AWS managed policy called AWSCodeDeployRole
 resource "aws_iam_role_policy_attachment" "codedeploy_service" {
-  role       =  aws_iam_role.codedeploy_service_role.name
+  role       = aws_iam_role.codedeploy_service_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
 }
 data "aws_iam_policy_document" "codedeploy_policy_doc" {
@@ -44,7 +44,7 @@ data "aws_iam_policy_document" "codedeploy_policy_doc" {
       "logs:*",
       "ecs:*",
       "elasticloadbalancing:*"
-      
+
     ]
 
     resources = ["*"]
@@ -53,11 +53,11 @@ data "aws_iam_policy_document" "codedeploy_policy_doc" {
     sid = "codepipelineiamPassRole"
 
     actions = [
-      
+
       "iam:PassRole"
     ]
 
-    resources = ["arn:aws:iam::452750642022:role/prd-go-docker-demo-task-role","arn:aws:iam::452750642022:role/prd-go-docker-demo-task-execution-role"]
+    resources = [var.taskIamExecutionRoleArn, var.taskIamRoleArn]
   }
 }
 

@@ -3,7 +3,7 @@
 data "aws_region" "current" {}
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "${var.environment}-${var.serviceName}-artifacts-demo"
+  bucket        = "${var.environment}-${var.serviceName}-artifacts-demo"
   force_destroy = "true"
 }
 ##### According to the latest change in AWS terraform module############
@@ -16,7 +16,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
   bucket = aws_s3_bucket.codepipeline_bucket.id
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm     = "AES256"
+      sse_algorithm = "AES256"
     }
   }
 }
@@ -33,7 +33,7 @@ resource "aws_s3_bucket_public_access_block" "codePipelineS3PublicAccess" {
 ####################Create CodeBuild project for lint and build ########################
 resource "aws_codebuild_project" "codeBuildProjectlint" {
   name         = "${var.environment}_${var.serviceName}_codebuildlint"
-  tags         = merge({ TargetEnv = var.environment }, { ResourceGroup = var.serviceName } )
+  tags         = merge({ TargetEnv = var.environment }, { ResourceGroup = var.serviceName })
   description  = "terraform_codebuild_project_for_lint"
   service_role = aws_iam_role.codebuildRole.arn
 
@@ -72,7 +72,7 @@ resource "aws_codebuild_project" "codeBuildProjectlint" {
       type  = "PLAINTEXT"
       value = data.aws_caller_identity.current.account_id
     }
-#
+    #
     environment_variable {
       name  = "REGION_NAME"
       type  = "PLAINTEXT"
@@ -95,7 +95,7 @@ locals {
 ##############################################################
 #################Create CodePipeline webhook###################
 resource "aws_codepipeline_webhook" "codepipelineWebhook" {
-  tags            = merge({ TargetEnv = var.environment }, { ResourceGroup = var.serviceName } )
+  tags            = merge({ TargetEnv = var.environment }, { ResourceGroup = var.serviceName })
   name            = "${var.environment}_${var.serviceName}_codepipelineWebhook"
   authentication  = "GITHUB_HMAC"
   target_action   = "Source"
@@ -192,8 +192,8 @@ resource "aws_codepipeline" "static_pipeline" {
       run_order       = 3
       input_artifacts = ["OutputArtifact"]
       configuration = {
-        ApplicationName                = "${var.environment}-${var.serviceName}-codedeploy-app"
-        DeploymentGroupName            = "${var.environment}-${var.serviceName}-codedeploy-dg"
+        ApplicationName     = "${var.environment}-${var.serviceName}-codedeploy-app"
+        DeploymentGroupName = "${var.environment}-${var.serviceName}-codedeploy-dg"
 
         TaskDefinitionTemplateArtifact = "OutputArtifact"
         TaskDefinitionTemplatePath     = "taskdef.json"

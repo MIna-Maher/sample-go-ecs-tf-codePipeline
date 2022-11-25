@@ -65,12 +65,9 @@ variable "webhook_filter_match_equals" {
   # for release -> published
   # for push -> refs/heads/{Branch}
 }
-variable "codedeploy_role_arn" {
+variable "taskIamRoleArn" {
   type = string
 }
-variable "codedeploy_applicationname" {
-  type = string
-}
-variable "codedeploy_groupname" {
+variable "taskIamExecutionRoleArn" {
   type = string
 }

@@ -45,3 +45,10 @@ variable "rBluenListenerArn" {
 variable "rGreenListenerArn" {
   type = string
 }
+
+variable "taskIamRoleArn" {
+  type = string
+}
+variable "taskIamExecutionRoleArn" {
+  type = string
+}

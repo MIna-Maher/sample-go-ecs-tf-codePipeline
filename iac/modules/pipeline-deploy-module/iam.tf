@@ -140,11 +140,11 @@ data "aws_iam_policy_document" "codepipelinePolicydocument" {
     sid = "codepipelineiamPassRole"
 
     actions = [
-      
+
       "iam:PassRole"
     ]
 
-    resources = ["arn:aws:iam::452750642022:role/prd-go-docker-demo-task-role","arn:aws:iam::452750642022:role/prd-go-docker-demo-task-execution-role"]
+    resources = [var.taskIamExecutionRoleArn, var.taskIamRoleArn]
   }
 
 }

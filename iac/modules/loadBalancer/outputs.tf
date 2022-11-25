@@ -10,11 +10,11 @@ output "rBlueTargetGroupArn" {
 }
 ## 
 output "rBlueTargetGroupName" {
-    value = aws_alb_target_group.awsBlueTargetGroup.name
+  value = aws_alb_target_group.awsBlueTargetGroup.name
 
 }
 output "rGreenTargetGroupName" {
- value = aws_alb_target_group.awsGreenTargetGroup.name
+  value = aws_alb_target_group.awsGreenTargetGroup.name
 
 }
 output "rBluenListenerArn" {
@@ -23,6 +23,6 @@ output "rBluenListenerArn" {
 }
 
 output "rGreenListenerArn" {
-   value = aws_alb_listener.awsGreenTargetGroupListener.arn
+  value = aws_alb_listener.awsGreenTargetGroupListener.arn
 
 }

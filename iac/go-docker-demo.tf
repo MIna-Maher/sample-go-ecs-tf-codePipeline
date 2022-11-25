@@ -87,29 +87,29 @@ module "go-app-codedeploy" {
   rGreenTargetGroupName            = module.albUIService.rGreenTargetGroupName
   rBluenListenerArn                = module.albUIService.rBluenListenerArn
   rGreenListenerArn                = module.albUIService.rGreenListenerArn
+  taskIamRoleArn                   = module.ecsService.taskIamRoleArn
+  taskIamExecutionRoleArn          = module.ecsService.taskIamExecutionRoleArn
   environment                      = var.environment
-  termination_wait_time_in_minutes  = "0"
-  time_interval_in_minutes          = "1"
-  percentage_canary_deployment      = "10"
+  termination_wait_time_in_minutes = "0"
+  time_interval_in_minutes         = "1"
+  percentage_canary_deployment     = "10"
   deployment_config_option         = "canary"
   #deployment_config_option          = "AllAtOnce"
 }
 
 module "codepipeline" {
   #depends_on = [module.go-app-codedeploy]
-  environment                      = var.environment
-  source                             = "./modules/pipeline-deploy-module"
-  serviceName                        = "go-docker-demo"
-  codebuild_compute_type             = "BUILD_GENERAL1_SMALL"
-  coudebuild_image                   = "aws/codebuild/standard:4.0"
-  codebuid_env_type                  = "LINUX_CONTAINER"
-  buildspec_lint_dir                 = "./pipeLineScripts/buildspec-lint.yml"
-  repository_name                    = "sample-go-ecs-tf-codePipeline"
-  repository_branch                  = "main"
-  repository_owner                   = var.repository_owner
-  GitHubToken                        = data.aws_ssm_parameter.GitHubToken.value
-  codedeploy_role_arn                = module.go-app-codedeploy.codedeploy_role_arn
-  codedeploy_applicationname         = module.go-app-codedeploy.codedeploy_applicationname
-  codedeploy_groupname               = module.go-app-codedeploy.codedeploy_groupname
-
+  environment             = var.environment
+  source                  = "./modules/pipeline-deploy-module"
+  serviceName             = "go-docker-demo"
+  codebuild_compute_type  = "BUILD_GENERAL1_SMALL"
+  coudebuild_image        = "aws/codebuild/standard:4.0"
+  codebuid_env_type       = "LINUX_CONTAINER"
+  buildspec_lint_dir      = "./pipeLineScripts/buildspec-lint.yml"
+  repository_name         = "sample-go-ecs-tf-codePipeline"
+  repository_branch       = "main"
+  repository_owner        = var.repository_owner
+  GitHubToken             = data.aws_ssm_parameter.GitHubToken.value
+  taskIamRoleArn          = module.ecsService.taskIamRoleArn
+  taskIamExecutionRoleArn = module.ecsService.taskIamExecutionRoleArn
 }
