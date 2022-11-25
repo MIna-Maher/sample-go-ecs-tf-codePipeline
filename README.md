@@ -156,5 +156,12 @@ terraform apply -var-file=prd-us-east-1.tfvars
 - Pipeline Architecture: ![Pipeline Architecture](./images/deploy.jpg)
 
 > **Notes CodePipeline**
-- Code pipeline stages
+#### Code pipeline stages:
+- `Source` - To connects to github repo for pulling source code using *GitHub PAT* and exporting the code artifacts to s3 bucket.
+- `build` - using codebuild project to containerize our app with the new changes, push the new image to ECR and prepare the needed output artifacts to the deploy stage.
+- `deploy` - Amazon ECS BLue/Green deploy with codeDeploy.
+- IAC_code for pipeline and the stages can be found on this [file](./iac/modules/pipeline-deploy-module/main.tf).
+
+
+
 
