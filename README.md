@@ -35,4 +35,9 @@ http://127.0.0.1:8000
 ### Design Aspects
 
 - Application is deployed on public subnets with internet-facing scheme to allow the customers to access our application externally.
-- Incase of the business need to allow the access of our app internally throught VPC, The IAC Code handles this throgh configuring this [attribute](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/b595c97dea2ce4cfb4b6697026a022f8c97d0a29/iac/go-docker-demo.tf#L50) to ##true## and configure ##private_subnets## instead of (public_subnets)[https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/b595c97dea2ce4cfb4b6697026a022f8c97d0a29/iac/go-docker-demo.tf#L91].  
+
+- Incase of the business need to allow the access of our app internally throught VPC, The IAC Code handles this throgh configuring this [attribute](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/b595c97dea2ce4cfb4b6697026a022f8c97d0a29/iac/go-docker-demo.tf#L50) to **true** and configure **private_subnets** instead of [public_subnets](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/b595c97dea2ce4cfb4b6697026a022f8c97d0a29/iac/go-docker-demo.tf#L91)
+
+- <ins>**Note**</ins>: For more dtails about the traffic flow from internet-facing ALB and how it routes the traffic to the private intances, please refer to [AWS Official Doc](https://docs.aws.amazon.com/prescriptive-guidance/latest/load-balancer-stickiness/subnets-routing.html).
+
+- The IAC code handles configuring the ALB listernes with SSL for securing the connection the communication by configuring this [attribute](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/0e04eab3d080c6e0259fea5cb868cdd8fefc7336/iac/go-docker-demo.tf#L49) to **true** and also configuring the [domain](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/0e04eab3d080c6e0259fea5cb868cdd8fefc7336/iac/go-docker-demo.tf#L53) name of choosen ACM certificate.
