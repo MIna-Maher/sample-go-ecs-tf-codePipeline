@@ -155,5 +155,6 @@ terraform apply -var-file=prd-us-east-1.tfvars
 
 - Pipeline Architecture: ![Pipeline Architecture](./images/deploy.jpg)
 
-
+> **Notes CodePipeline**
+- Code pipeline stages
 
