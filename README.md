@@ -10,7 +10,7 @@
 3. [Design Architecture](#Design-Architecture)
 4. [Design Aspects](#Design-Aspects)
 5. [IAC Implementation](#IAC-Implementation)
-6. [Pipeline and Deployment](#IAC-Implementation)
+6. [Pipeline and Deployment](#Pipeline-and-Deployment)
 
 ### Introduction
 
