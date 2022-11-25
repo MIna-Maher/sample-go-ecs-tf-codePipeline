@@ -94,11 +94,11 @@ http://127.0.0.1:8000
 - <ins>**Note**</ins>: **prd-us-east-1.tfvars** is just naming convention to make it it easy to have differnet values when having multiple envs and regions, However you could name it anyname like xxxxxx.tfvars.
 
 - IAC Modules are: 
-- <ins>**networking**</ins>: For Creating and configuring vpc, private subnets and public subnets.
-- <ins>**ecsCluster**</ins>: For Creating and configuring the ecs cluster.
-- <ins>**ecrRepUIService**</ins>: For Creating and configuring ecr private registery.
-- <ins>**albUIService**</ins>: For creating and configuring ALB.
-- <ins>**ecsService**</ins>: For creating and configuring ECS Fargate service.
-- <ins>**go-app-codedeploy**</ins>: For creating and configuring codeDeploy app and deployment group used for deployment "Discuused below".
-- <ins>**codepipeline**</ins>: For creating and configuring AWS managed codepipeline , codeBuild and pipeline stages used for deployment "Discuused below".
+- [<ins>**networking**</ins>](./iac/modules/networking/): For Creating and configuring vpc, private subnets and public subnets.
+- [<ins>**ecsCluster**</ins>](./iac/modules/ecsCluster/): For Creating and configuring the ecs cluster.
+- [<ins>**ecrRepUIService**</ins>](./iac/modules/ecrRepo/): For Creating and configuring ecr private registery.
+- [<ins>**albUIService**</ins>](./iac/modules/loadBalancer/): For creating and configuring ALB.
+- [<ins>**ecsService**</ins>](./iac/modules/ecsService/): For creating and configuring ECS Fargate service.
+- [<ins>**go-app-codedeploy**</ins>](./iac/modules/codedeploy/): For creating and configuring codeDeploy app and deployment group used for deployment "Discussed below".
+- [<ins>**codepipeline**</ins>](./iac/modules/pipeline-deploy-module/): For creating and configuring AWS managed codepipeline , codeBuild and pipeline stages used for deployment "Discussed below".
 
