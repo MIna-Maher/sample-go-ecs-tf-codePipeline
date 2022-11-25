@@ -65,7 +65,7 @@ http://127.0.0.1:8000
   ecs_service_ram_target_value  = 80
   ecs_service_cpu_target_value  = 80
 ```
->> ins>**taskdef**</ins>:
+ ins>**taskdef**</ins>:
 ```sh
   export taskCPU=256
   export taskRAM=512
@@ -73,5 +73,4 @@ http://127.0.0.1:8000
 ```
 
 - <ins>**Note**</ins>: For configuring fargate cpu/ram for your task, please refer to [AWS Doc](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html).
-
 
