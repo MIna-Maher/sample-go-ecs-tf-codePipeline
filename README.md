@@ -51,6 +51,8 @@ http://127.0.0.1:8000
 
 - For configring scaling average tracking metrics for cpu/ram, number of desired/max tasks, please configure these params according to your need, this configs can be found on [go-docker-demo.tf](./iac/go-docker-demo.tf) and also for the pipeline [task def](./pipeLineScripts/postBuild.sh):
 
+ <ins>**go-docker-demo.tf**</ins>:
+
 ```
   cpu                           = 256
   memory                        = 512
