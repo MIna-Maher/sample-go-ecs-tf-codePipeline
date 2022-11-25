@@ -7,7 +7,7 @@
 
 1. [Intro](#Intro)
 2. [Testing Locally](#Testing-Locally)
-3. [Design Architecture And Aspects](#Design-Architecture)
+3. [Design Architecture](#Design-Architecture)
 
 ### Intro
 
@@ -27,6 +27,7 @@ docker run --name goapp-demo -itd -p 8000:8000 goapp
 ```
 http://127.0.0.1:8000
 ```
-### Design Architecture And Aspects
+### Design Architecture
 
-- ![Design Architecture:](./images/design.jpg)
+![Design Architecture:](./images/design.jpg)
+- 
