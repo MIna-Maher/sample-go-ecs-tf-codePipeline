@@ -88,5 +88,13 @@ http://127.0.0.1:8000
 ### IAC Implementation
 
 - As mentioned above all resources are created using terraform. all IAC can be found on this [directory](./iac/).
+
 - Terraform code contains different [modules](./iac/modules/) to create the needed resources and calling them through [go-docker-demo.tf](./iac/go-docker-demo.tf) main file and passing some common variables through [prd-us-east-1.tfvars](./iac/prd-us-east-1.tfvars).
-- <ins>**Note**</ins>: **prd-us-east-1.tfvars** is just naming convention to make it it easy to have differnet values when having multiple envs and regions, However you could name it anyname like xxxxxx.tfvars. 
+
+- <ins>**Note**</ins>: **prd-us-east-1.tfvars** is just naming convention to make it it easy to have differnet values when having multiple envs and regions, However you could name it anyname like xxxxxx.tfvars.
+
+- IAC Modules are: 
+<ins>**networking**</ins>: For Creating and configuring vpc, private subnets and public subnets.
+<ins>**ecsCluster**</ins>: For Creating and configuring the ecs cluster.
+<ins>**ecrRepUIService**</ins>: For Creating and configuring ecr private registery.
+<ins>**albUIService**</ins>: 
