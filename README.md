@@ -5,13 +5,14 @@
 
 ## Table of Contents
 
-1. [Intro](#Intro)
+1. [Introduction](#Introduction)
 2. [Testing Locally](#Testing-Locally)
 3. [Design Architecture](#Design-Architecture)
 4. [Design Aspects](#Design-Aspects)
 5. [IAC Implementation](#IAC-Implementation)
+6. [Pipeline and Deployment](#IAC-Implementation)
 
-### Intro
+### Introduction
 
 - This sample app is built on go language and deployed on AWS ECS fargate service.
 - AWS resources are created with IAC using terraform.
@@ -116,10 +117,15 @@ aws s3api put-public-access-block --bucket prd-s3-bakend-demo4 --public-access-b
 - `key` - Set some meaningful names for different services and applications, such as vpc.tfstate, application_name.tfstate, etc
 - `dynamodb_table` - optional when you want to enable [State Locking](https://www.terraform.io/docs/state/locking.html)
 
+> **Note**
+> This is a note
 - For init/plan/deploy IAC Resources, please run the below <ins>**commands**</ins>:
 
 ```sh
 cd iac/
 terraform init
 terraform plan -var-file=prd-us-east-1.tfvars
+terraform apply -var-file=prd-us-east-1.tfvars
 ```
+
+
