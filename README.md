@@ -76,3 +76,11 @@ http://127.0.0.1:8000
 
 - <ins>**Note**</ins>: For configuring fargate cpu/ram for your task, please refer to [AWS Doc](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html).
 
+- For monitoring app logs and metrics, I'm using awslogs log driver to send all app logs to cloudwatch, also enable AWS ECS containerInights for sending all tasks/cluster metrics to cloudwatch.
+
+- The awslogs logdriver is added to task def file and can be configured from this [file](./pipeLineScripts/postBuild.sh). Also For **cost saving** , the created cloudwatch log group has setting of log_group_retention_in_days to **30** days and can be configured from this [file](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/4cf1bfed0029fa676d3ad39fc7c601ffb3dd8e4b/iac/prd-us-east-1.tfvars#L7).
+
+- Logging: ![logging](./images/logs.jpeg)
+- For enabling **container_insights** , this can be configured from this [param](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/4cf1bfed0029fa676d3ad39fc7c601ffb3dd8e4b/iac/prd-us-east-1.tfvars#L8)
+- Metric Insights: ![metrics](./images/insights.jpeg)
+
