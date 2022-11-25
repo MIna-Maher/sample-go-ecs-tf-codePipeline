@@ -143,5 +143,17 @@ terraform apply -var-file=prd-us-east-1.tfvars
 
 ### Pipeline and Deployment
 
+- The Pipeline for deploying app versions uses AWS managed services like `AWS CodePipeline` , `AWS CodeBUild` and `AWS CodeDeploy`. using managed services has benefits like no more need to manage the underlying resources to run the non managed services.
+
+- **Notes on pipeline services**:
+
+- `CodePipeline` - To connect with GitHub Repo and creates our pipeline stages and actions needed to build/deploy.
+
+- `codeBuild` - To containerize our app with the new changes, push the new image to ECR and prepare the needed output artifacts to the deploy stage.
+
+- `codeDeploy` - To Deploy the app new image version "new task def revision" to new with task following B/G - Canary or ECSAllAtOnce according to the business need.
+
+- Pipeline Architecture: ![Pipeline Architecture](./images/deploy.jpg)
+
 
 
