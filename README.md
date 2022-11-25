@@ -8,6 +8,7 @@
 1. [Intro](#Intro)
 2. [Testing Locally](#Testing-Locally)
 3. [Design Architecture](#Design-Architecture)
+4. [Design Aspects](#Design-Aspects)
 
 ### Intro
 
@@ -30,4 +31,8 @@ http://127.0.0.1:8000
 ### Design Architecture
 
 ![Design Architecture:](./images/design.jpg)
-- 
+
+### Design Aspects
+
+- Application is deployed on public subnets with internet-facing scheme to allow the customers to access our application externally.
+- Incase of the business need to allow the access of our app internally throught VPC, The IAC Code handles this throgh configuring this [attribute](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/b595c97dea2ce4cfb4b6697026a022f8c97d0a29/iac/go-docker-demo.tf#L50) to ##true## and configure ##private_subnets## instead of (public_subnets)[https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/b595c97dea2ce4cfb4b6697026a022f8c97d0a29/iac/go-docker-demo.tf#L91].  
