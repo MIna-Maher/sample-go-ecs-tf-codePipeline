@@ -6,7 +6,7 @@
 ## Table of Contents
 
 1. [Intro](#Intro)
-2. [Testing Locally](#Testing Locally)
+2. [Testing Locally](#Testing-Locally)
 
 ### Intro
 
@@ -17,7 +17,7 @@
 ### Testing Locally
 
 - For testing app locally on machines with Docker, please run the below <ins>commands</ins>: 
-sh ```
+```
 docker build  -t goapp .
 docker run --name goapp-demo -itd -p 8000:8000 goapp
 ```
