@@ -104,9 +104,22 @@ http://127.0.0.1:8000
 
 - Using terraform s3 backend with dynamodb table to save the tfstate file and lock the state deployment during deploy resources which prevent 2 concurrent deployment on the same time, For more information about on s3 backend, please refer to [Terraform Doc](https://developer.hashicorp.com/terraform/language/settings/backends/s3).  
 
-- IAC Uses s3 [backend.tf](./iac/backend.tf) configs to save the state file on s3 bucket, This bucket needs to be created prior to this IAC Code, it could be manually, AWSCLI, Console or another tf module. Here I'm using AWSCLI to create s3 bucket , configure its encryption at rest and deny all public access throguh these commands:
+- IAC Uses s3 [backend.tf](./iac/backend.tf) configs to save the state file on s3 bucket, This bucket needs to be created prior to this IAC Code, it could be manually, AWSCLI, Console or another tf module. Here I'm using AWSCLI to create s3 bucket , configure its encryption at rest and deny all public access throguh these <ins>**commands**</ins>:
 ```sh
 aws s3api create-bucket --bucket prd-s3-bakend-demo4 --region us-east-1
 aws s3api put-bucket-encryption --bucket prd-s3-bakend-demo4 --region us-east-1 --server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\": {\"SSEAlgorithm\": \"AES256\"}}]}"
 aws s3api put-public-access-block --bucket prd-s3-bakend-demo4 --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region us-east-1
+```
+- Notes on S3
+
+- `bucket` - s3 bucket name, has to be globally unique.
+- `key` - Set some meaningful names for different services and applications, such as vpc.tfstate, application_name.tfstate, etc
+- `dynamodb_table` - optional when you want to enable [State Locking](https://www.terraform.io/docs/state/locking.html)
+
+- For init/plan/deploy IAC Resources, please run the below <ins>**commands**</ins>:
+
+```sh
+cd iac/
+terraform init
+terraform plan -var-file=prd-us-east-1.tfvars
 ```
