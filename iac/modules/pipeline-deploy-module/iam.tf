@@ -129,11 +129,24 @@ data "aws_iam_policy_document" "codepipelinePolicydocument" {
       "s3:GetBucketLocation",
       "s3:GetObjectVersion",
       "sts:AssumeRole",
-      "codedeploy:*"
+      "codedeploy:*",
+      "iam:PassRole",
+      "ecs:RegisterTaskDefinition"
     ]
 
     resources = ["*"]
   }
+  statement {
+    sid = "codepipelineiamPassRole"
+
+    actions = [
+      
+      "iam:PassRole"
+    ]
+
+    resources = ["arn:aws:iam::452750642022:role/prd-go-docker-demo-task-role","arn:aws:iam::452750642022:role/prd-go-docker-demo-task-execution-role"]
+  }
+
 }
 
 ###############################Create Codebuild policy #############################

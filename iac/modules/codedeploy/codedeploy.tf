@@ -19,8 +19,7 @@ resource "aws_iam_role" "codedeploy_service_role" {
       "Effect": "Allow",
       "Principal": {
         "Service": [
-          "codedeploy.amazonaws.com",
-          "codepipeline.amazonaws.com"
+          "codedeploy.amazonaws.com"
         ]
       },
       "Action": "sts:AssumeRole"
@@ -43,11 +42,22 @@ data "aws_iam_policy_document" "codedeploy_policy_doc" {
       "s3:*",
       "ecr:*",
       "logs:*",
-      "ecs:*"
+      "ecs:*",
+      "elasticloadbalancing:*"
       
     ]
 
     resources = ["*"]
+  }
+  statement {
+    sid = "codepipelineiamPassRole"
+
+    actions = [
+      
+      "iam:PassRole"
+    ]
+
+    resources = ["arn:aws:iam::452750642022:role/prd-go-docker-demo-task-role","arn:aws:iam::452750642022:role/prd-go-docker-demo-task-execution-role"]
   }
 }
 
