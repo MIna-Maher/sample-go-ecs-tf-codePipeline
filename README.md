@@ -94,7 +94,8 @@ http://127.0.0.1:8000
 - <ins>**Note**</ins>: **prd-us-east-1.tfvars** is just naming convention to make it it easy to have differnet values when having multiple envs and regions, However you could name it anyname like xxxxxx.tfvars.
 
 - IAC Modules are: 
-<ins>**networking**</ins>: For Creating and configuring vpc, private subnets and public subnets.
-<ins>**ecsCluster**</ins>: For Creating and configuring the ecs cluster.
-<ins>**ecrRepUIService**</ins>: For Creating and configuring ecr private registery.
-<ins>**albUIService**</ins>: 
+[^2]<ins>**networking**</ins>: For Creating and configuring vpc, private subnets and public subnets.
+[^2]<ins>**ecsCluster**</ins>: For Creating and configuring the ecs cluster.
+[^2]<ins>**ecrRepUIService**</ins>: For Creating and configuring ecr private registery.
+<ins>**albUIService**</ins>: For creating and configuring ALB.
+
