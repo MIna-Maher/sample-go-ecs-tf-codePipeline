@@ -9,6 +9,7 @@
 2. [Testing Locally](#Testing-Locally)
 3. [Design Architecture](#Design-Architecture)
 4. [Design Aspects](#Design-Aspects)
+5. [IAC Implementation](#IAC-Implementation)
 
 ### Intro
 
@@ -84,3 +85,7 @@ http://127.0.0.1:8000
 - For enabling **container_insights** , this can be configured from this [param](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/4cf1bfed0029fa676d3ad39fc7c601ffb3dd8e4b/iac/prd-us-east-1.tfvars#L8)
 - Metric Insights: ![metrics](./images/insights.jpeg)
 
+### IAC Implementation
+
+- As mentioned above all resources are created using terraform. all IAC can be found on this [directory](./iac/).
+- 
