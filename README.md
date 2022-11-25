@@ -11,6 +11,7 @@
 4. [Design Aspects](#Design-Aspects)
 5. [IAC Implementation](#IAC-Implementation)
 6. [Pipeline and Deployment](#Pipeline-and-Deployment)
+7. [To Do List](#ToDO)
 
 ### Introduction
 
@@ -161,6 +162,45 @@ terraform apply -var-file=prd-us-east-1.tfvars
 - `build` - using codebuild project to containerize our app with the new changes, push the new image to ECR and prepare the needed output artifacts to the deploy stage.
 - `deploy` - Amazon ECS BLue/Green deploy with codeDeploy.
 - IAC_code for pipeline and the stages can be found on this [file](./iac/modules/pipeline-deploy-module/main.tf).
+> **Note**
+> For automating the pipeline to auto trigger in case of push events to github, the IAC creates and configures GitHub webhook using PAT, This can be found [here](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/fab1a8adf24f11ad0b833fcf385213244417d55f/iac/modules/pipeline-deploy-module/main.tf#L97).
+
+> **Notes On codebuild**
+- CodeBuild project after pushing the image to ECR it prepares the output artifacts needed for deploy stage like the below on [buildspec.yaml](./pipeLineScripts/buildspec-lint.yml) file:
+```yaml
+artifacts:
+  files: 
+    - imageDetail.json
+    - taskdef.json
+    - appspec.yml
+```
+> **Notes On codeDeploy**
+- codeDeploy uses [appspec.yml](./pipeLineScripts/appspec.yml) file and the output artifacts from the previous stage to create new task with the new task revision on the **ALB green target group** "as shown on above pipeline arch ".
+- At some points there are 2 running versions of the app and 2 URLs, the current one for serving the customers normally and the seconds one is for QA team and deveoppers to check the changes before rolling to the current customer facing app version.
+- Through the IAC code you have the control to choose which **deploymnt strategy** you want to apply according to the <ins>**Business Need**</ins> by configuring the below configs on this [go-docker-demo.tf](./iac/go-docker-demo.tf) file.
+
+```tf
+  termination_wait_time_in_minutes = "0"
+  time_interval_in_minutes         = "1"
+  percentage_canary_deployment     = "10"
+  deployment_config_option         = "canary"
+  #deployment_config_option        = "AllAtOnce"
+```
+- For Example on the above configs, the deploy strategy is `canary` so the trafic is shifted with `10%` for `1 minute` to the new task then the remaing. After the shifting is done completely the old task will be terminated immediately as `termination_wait_time_in_minutes = 0`
+- For More detailed info on deploying on ecs with code deploy, please refer to [AWS Doc](https://docs.aws.amazon.com/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html)
+
+- Deploy Example: ![Deploy Example](./images/canary.jpeg)
+
+### To Do List:
+
+- [x] IAC Implementation
+- [x] Code Pipeline Implementation
+- [ ] Onboarding database on private data tier.
+- [ ] Handling db credentials from secret manager.
+- [ ] Adding more microservices and making use of ECS service discovery for connecting apps.
+
+- New Release Design and Notes: ![New Release Design](./images/new.jpg)
+- Notes: The database will be on private data subnets and allow connections only from app SG.
 
 
 
