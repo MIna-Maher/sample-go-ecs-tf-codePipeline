@@ -25,7 +25,8 @@
 docker build  -t goapp .
 docker run --name goapp-demo -itd -p 8000:8000 goapp
 ```
-- <ins>**Note**</ins>: Docker needs to e installed on machine locally, for installation tips according to your OS platform, please check this [Docker official docs](https://docs.docker.com/engine/install/).
+>**Note** 
+>Docker needs to e installed on machine locally, for installation tips according to your OS platform, please check this [Docker official docs](https://docs.docker.com/engine/install/).
 - For hitting your go app locally, please run this on your broswer:
 ```
 http://127.0.0.1:8000
@@ -40,7 +41,7 @@ http://127.0.0.1:8000
 
 - Incase of the business need to allow the access of our app internally throught VPC, The IAC Code handles this throgh configuring this [attribute](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/b595c97dea2ce4cfb4b6697026a022f8c97d0a29/iac/go-docker-demo.tf#L50) to **true** and configure **private_subnets** instead of [public_subnets](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/b595c97dea2ce4cfb4b6697026a022f8c97d0a29/iac/go-docker-demo.tf#L91)
 
-> **Note**:
+> **Note**
 > For more dtails about the traffic flow from internet-facing ALB and how it routes the traffic to the private intances, please refer to [AWS Official Doc](https://docs.aws.amazon.com/prescriptive-guidance/latest/load-balancer-stickiness/subnets-routing.html).
 
 - The IAC code handles configuring the ALB listernes with SSL for securing the connection the communication by configuring this [attribute](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/0e04eab3d080c6e0259fea5cb868cdd8fefc7336/iac/go-docker-demo.tf#L49) to **true** and also configuring the [domain](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/0e04eab3d080c6e0259fea5cb868cdd8fefc7336/iac/go-docker-demo.tf#L53) name of choosen ACM certificate.
@@ -77,10 +78,10 @@ http://127.0.0.1:8000
   export aws_logs_group=${env}-go-docker-demo-log-group
 ```
 
-> **Note**:
+> **Note**
 > For configuring fargate cpu/ram for your task, please refer to [AWS Doc](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html).
 
-- For monitoring app logs and metrics, I'm using awslogs log driver to send all app logs to cloudwatch, also enable AWS ECS containerInights for sending all tasks/cluster metrics to cloudwatch.
+- For monitoring app logs and metrics, It's used awslogs log driver to send all app logs to cloudwatch, also enable AWS ECS containerInights for sending all tasks/cluster metrics to cloudwatch.
 
 - The awslogs logdriver is added to task def file and can be configured from this [file](./pipeLineScripts/postBuild.sh). Also For **cost saving** , the created cloudwatch log group has setting of log_group_retention_in_days to **30** days and can be configured from this [file](https://github.com/MIna-Maher/sample-go-ecs-tf-codePipeline/blob/4cf1bfed0029fa676d3ad39fc7c601ffb3dd8e4b/iac/prd-us-east-1.tfvars#L7).
 
@@ -113,14 +114,23 @@ aws s3api create-bucket --bucket prd-s3-bakend-demo4 --region us-east-1
 aws s3api put-bucket-encryption --bucket prd-s3-bakend-demo4 --region us-east-1 --server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\": {\"SSEAlgorithm\": \"AES256\"}}]}"
 aws s3api put-public-access-block --bucket prd-s3-bakend-demo4 --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region us-east-1
 ```
-- Notes on S3
+- **Notes on S3**:
 
 - `bucket` - s3 bucket name, has to be globally unique.
 - `key` - Set some meaningful names for different services and applications, such as vpc.tfstate, application_name.tfstate, etc
 - `dynamodb_table` - optional when you want to enable [State Locking](https://www.terraform.io/docs/state/locking.html)
 
 > **Note**
-> This is a note
+> The IAC creates codepipeline which connects to Github Repo for pulling source code and configuring webhook to auto trigger the pipeline using `Personal Access Token` and for security practices this PAT cannot be saved on source code, Its created as secure string SSM parameter named `GitHubToken`, So you need to create this ssm parameter manually with your own PAT before running the IAC otherwise it will fail.
+You can check this configuration on [go-docker-demo.tf](./iac/go-docker-demo.tf)
+```tf
+data "aws_ssm_parameter" "GitHubToken" {
+  name            = "GitHubToken"
+  with_decryption = "true"
+  #####Default for with_decryption is true
+}
+```
+
 
 - For init/plan/deploy IAC Resources, please run the below <ins>**commands**</ins>:
 
