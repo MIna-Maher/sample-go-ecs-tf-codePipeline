@@ -49,7 +49,7 @@ http://127.0.0.1:8000
 - ECS Service is created with desired **1** task with cpu: 256 && RAM: 512 , and enable service autoscaling for autoscaling the number of tasks incase of increasing the load.
 - Service AutoScaling: ![Service Autoscaling](./images/scale.jpeg)
 
-- For configring scaling average tracking metrics for cpu/ram, number of desired/max tasks, please configure these params according to your need, this configs can be found on [go-docker-demo.tf](./iac/go-docker-demo.tf):
+- For configring scaling average tracking metrics for cpu/ram, number of desired/max tasks, please configure these params according to your need, this configs can be found on [go-docker-demo.tf](./iac/go-docker-demo.tf) and also for the pipeline [task def](./pipeLineScripts/postBuild.sh):
 
 ```
   cpu                           = 256
@@ -65,6 +65,13 @@ http://127.0.0.1:8000
   ecs_service_ram_target_value  = 80
   ecs_service_cpu_target_value  = 80
 ```
+>> ins>**taskdef**</ins>:
+```sh
+  export taskCPU=256
+  export taskRAM=512
+  export aws_logs_group=${env}-go-docker-demo-log-group
+```
+
 - <ins>**Note**</ins>: For configuring fargate cpu/ram for your task, please refer to [AWS Doc](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html).
 
 
