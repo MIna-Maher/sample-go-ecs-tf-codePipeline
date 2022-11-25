@@ -102,3 +102,11 @@ http://127.0.0.1:8000
 - [<ins>**go-app-codedeploy**</ins>](./iac/modules/codedeploy/): For creating and configuring codeDeploy app and deployment group used for deployment "Discussed below".
 - [<ins>**codepipeline**</ins>](./iac/modules/pipeline-deploy-module/): For creating and configuring AWS managed codepipeline , codeBuild and pipeline stages used for deployment "Discussed below".
 
+- Using terraform s3 backend with dynamodb table to save the tfstate file and lock the state deployment during deploy resources which prevent 2 concurrent deployment on the same time, For more information about on s3 backend, please refer to [Terraform Doc](https://developer.hashicorp.com/terraform/language/settings/backends/s3).  
+
+- IAC Uses s3 [backend.tf](./iac/backend.tf) configs to save the state file on s3 bucket, This bucket needs to be created prior to this IAC Code, it could be manually, AWSCLI, Console or another tf module. Here I'm using AWSCLI to create s3 bucket , configure its encryption at rest and deny all public access throguh these commands:
+```sh
+aws s3api create-bucket --bucket prd-s3-bakend-demo4 --region us-east-1
+aws s3api put-bucket-encryption --bucket prd-s3-bakend-demo4 --region us-east-1 --server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\": {\"SSEAlgorithm\": \"AES256\"}}]}"
+aws s3api put-public-access-block --bucket prd-s3-bakend-demo4 --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" --region us-east-1
+```
