@@ -5,7 +5,7 @@ variable "rBlueTargetGroupArn" {
 variable "environment" {
   type = string
 }
-variable "public_subnet_ids" {
+variable "subnet_ids" {
   type = list(string)
 }
 ##Variables for task def ###

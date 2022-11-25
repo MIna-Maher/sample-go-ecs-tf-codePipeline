@@ -11,7 +11,7 @@ resource "aws_ecs_service" "svc_LB" {
   force_new_deployment    = true
   network_configuration {
     security_groups  = [aws_security_group.service_sg_alb.id]
-    subnets          = var.public_subnet_ids
+    subnets          = var.subnet_ids
     assign_public_ip = var.assign_public_ip
   }
   deployment_controller {

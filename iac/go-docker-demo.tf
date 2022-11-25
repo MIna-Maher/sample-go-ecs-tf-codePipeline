@@ -1,9 +1,9 @@
 provider "aws" {
   region = var.region
 }
-data "aws_vpc" "vpc" {
-  id = var.vpc_id
-}
+#data "aws_vpc" "vpc" {
+#  id = var.vpc_id
+#}
 data "aws_ssm_parameter" "GitHubToken" {
   name            = "GitHubToken"
   with_decryption = "true"
@@ -12,6 +12,16 @@ data "aws_ssm_parameter" "GitHubToken" {
 provider "github" {
   token = data.aws_ssm_parameter.GitHubToken.value
   owner = var.repository_owner
+}
+
+module "networking" {
+  source             = "./modules/networking"
+  vpcCIDR            = "10.50.0.0/16"
+  publicSubnet1CIDR  = "10.50.1.0/24"
+  publicSubnet2CIDR  = "10.50.2.0/24"
+  privateSubnet1CIDR = "10.50.10.0/24"
+  privateSubnet2CIDR = "10.50.20.0/24"
+
 }
 ## Create ecs cluster
 
@@ -41,19 +51,23 @@ module "albUIService" {
   load_balancer_type  = "application"
   health_check_path   = "/"
   alb_listener_domain = "mina.com"
-  vpc_id              = var.vpc_id
-  environment         = var.environment
-  serviceName         = "go-docker-demo"
-  app_port            = 8000
-  app_temp_port       = 8080
-  subnet_ids          = var.public_subnet_ids
-  vpc_cidr            = data.aws_vpc.vpc.cidr_block
+  #vpc_id              = var.vpc_id
+  vpc_id        = module.networking.vpc_id
+  environment   = var.environment
+  serviceName   = "go-docker-demo"
+  app_port      = 8000
+  app_temp_port = 8080
+  #subnet_ids          = var.public_subnet_ids
+  subnet_ids = [module.networking.public_subnet_1, module.networking.public_subnet_2]
+  #vpc_cidr            = data.aws_vpc.vpc.cidr_block
+  vpc_cidr = "10.50.0.0/16"
 }
 
 module "ecsService" {
-  source                        = "./modules/ecsService"
-  assign_public_ip              = true ###should be set to true for on public subnets.
-  vpc_id                        = var.vpc_id
+  source           = "./modules/ecsService"
+  assign_public_ip = false ###should be set to true for on public subnets.
+  #vpc_id                        = var.vpc_id
+  vpc_id                        = module.networking.vpc_id
   environment                   = var.environment
   rBlueTargetGroupArn           = module.albUIService.rBlueTargetGroupArn
   alb_sg                        = module.albUIService.alb_sg
@@ -73,9 +87,11 @@ module "ecsService" {
   ecs_service_cpu_target_value  = 80
   service_launch_type           = "FARGATE"
   enable_ecs_managed_tags       = "true"
-  public_subnet_ids             = var.public_subnet_ids
-  vpc_cidr                      = data.aws_vpc.vpc.cidr_block
-  repo_url                      = module.ecrRepUIService.repoURL
+  #subnet_ids             = var.public_subnet_ids
+  subnet_ids             = [module.networking.private_subnet_1, module.networking.private_subnet_2]
+  #vpc_cidr                      = data.aws_vpc.vpc.cidr_block
+  vpc_cidr = "10.50.0.0/16"
+  repo_url = module.ecrRepUIService.repoURL
 }
 
 module "go-app-codedeploy" {

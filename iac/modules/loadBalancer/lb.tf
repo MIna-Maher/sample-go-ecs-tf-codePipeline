@@ -1,6 +1,5 @@
 ###############################
 ## Terraform Data ##
-## Cross public subnets IDS
 ###############################
 ## Terraform Locals ##
 ## two fields indicating is that the ssl should be used or not
@@ -24,10 +23,13 @@ data "aws_caller_identity" "current" {}
 ###############################
 resource "aws_alb" "main" {
   load_balancer_type = var.load_balancer_type
-  subnets            = var.subnet_ids
-  security_groups    = [aws_security_group.lb.id]
-  idle_timeout       = 300
-  tags               = merge({ Name = format("%s-%s-lb", var.environment, var.serviceName) })
+
+  subnets  = var.subnet_ids
+  internal = var.aws_lb_internal
+
+  security_groups = [aws_security_group.lb.id]
+  idle_timeout    = 300
+  tags            = merge({ Name = format("%s-%s-lb", var.environment, var.serviceName) })
 
 }
 
