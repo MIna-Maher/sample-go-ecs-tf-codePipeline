@@ -5,13 +5,13 @@ variable "environment" {
 variable "region" {
   type = string
 }
-variable "vpc_id" {
-  type = string
-}
-
-variable "public_subnet_ids" {
-  type = list(string)
-}
+#ariable "vpc_id" {
+# type = string
+#
+#
+#ariable "public_subnet_ids" {
+# type = list(string)
+#
 /***********************/
 /*ECS Cluster Variables*/
 variable "clusterName" {

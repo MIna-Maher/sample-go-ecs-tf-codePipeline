@@ -3,7 +3,7 @@
 data "aws_region" "current" {}
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket        = "${var.environment}-${var.serviceName}-artifacts-demo"
+  bucket        = "${var.environment}-${var.serviceName}-artifacts-demo1"
   force_destroy = "true"
 }
 ##### According to the latest change in AWS terraform module############
