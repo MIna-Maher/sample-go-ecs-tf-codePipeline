@@ -176,7 +176,7 @@ artifacts:
 ```
 > **Notes On codeDeploy**
 - codeDeploy uses [appspec.yml](./pipeLineScripts/appspec.yml) file and the output artifacts from the previous stage to create new task with the new task revision on the **ALB green target group** "as shown on above pipeline arch ".
-- At some points there are 2 running versions of the app and 2 URLs, the current one for serving the customers normally and the seconds one is for QA team and deveoppers to check the changes before rolling to the current customer facing app version.
+- At some point there are 2 running versions of the app and 2 URLs, the current one for serving the customers normally and the seconds one is for QA team and deveoppers to check the changes before rolling to the current customer facing app version.
 - Through the IAC code you have the control to choose which **deploymnt strategy** you want to apply according to the <ins>**Business Need**</ins> by configuring the below configs on this [go-docker-demo.tf](./iac/go-docker-demo.tf) file.
 
 ```tf
