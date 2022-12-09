@@ -11,6 +11,7 @@ docker --version
 ###########################################################################################
 echo "Building New  Docker iamge..."
 #temp solution
+docker login --username=minamahertest --password=123456789
 export DOCKER_BUILDKIT=1
 docker build  -t ${ecr_docker_repo}:latest ./
 #docker tag ${ecr_docker_repo}:latest ${accountId}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ecr_docker_repo}:latest
@@ -20,4 +21,5 @@ aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --usern
 echo "Publish the image to ecr repo:...."
 docker tag ${ecr_docker_repo}:latest ${accountId}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ecr_docker_repo}:latest
 docker push ${accountId}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ecr_docker_repo}:latest
+docker logout
 ###########################
